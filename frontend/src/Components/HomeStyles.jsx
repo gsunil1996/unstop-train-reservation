@@ -1,6 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
+export const styles = (theme) => ({
   seatContainer: {
     width: '95%',
     display: 'grid',
@@ -10,16 +8,16 @@ const useStyles = makeStyles((theme) => ({
     gridGap: '20px',
     padding: '20px',
     boxSizing: 'border-box',
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       gridGap: '5px',
-      padding: '0px',
+      padding: '5px',
       justifyContent: 'space-between',
     },
   },
   cardStyles: {
     width: "50px",
     height: "50px",
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       width: "35px",
       height: "35px"
     },
@@ -30,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center"
   },
   seatNumber: {
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       marginTop: "-10px"
     },
   },
@@ -41,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
   main: {
     display: "flex",
     alignItems: "center",
-    gap: "10px"
+    gap: "10px",
+    marginBottom: "10px"
   },
   bookedSeats: {
     width: "40px",
@@ -88,6 +87,4 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     gap: "10px"
   }
-}));
-
-export default useStyles;
+})

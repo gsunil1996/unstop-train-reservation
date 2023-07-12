@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import useStyles from "./Home.styles";
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import axios from 'axios';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Button from '@material-ui/core/Button';
-import { CircularProgress } from '@material-ui/core';
+import { Box } from "@mui/system";
+import { useTheme } from "@mui/material/styles";
+import { styles } from './HomeStyles';
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { toast } from "react-toastify";
+import { Button, Card, CardContent, CircularProgress, Grid, LinearProgress } from "@mui/material";
 
 const Home = () => {
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = styles(theme);
+
   const [seatsLoading, setSeatsLoading] = useState(true);
   const [data, setData] = useState([]);
   const [dataError, setDataError] = useState("");
@@ -52,82 +51,85 @@ const Home = () => {
     fetchData();
   }, []);
 
-
   return (
     <div>
-      <h1>Seat Reservation</h1>
+      <div style={{ textAlign: "center" }} >
+        <h1>Seat Reservation</h1>
+      </div>
+
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={6} >
           {seatsLoading ? <div>
             <h1>Loading...</h1>
             <div><LinearProgress /></div>
           </div> : dataError ? <div><h1>{dataError}</h1></div> :
-            <div className={classes.seatContainer}>
+            <Box sx={classes.seatContainer}>
               {data?.seats?.map((item) => (
                 <div key={item._id}>
-                  {console.log(item)}
-                  <Card className={classes.cardStyles}
+                  <Card sx={classes.cardStyles}
                     style={{ background: item.isBooked ? "#990011FF" : "#2C5F2DFF", color: item.isBooked ? "#FCF6F5FF" : "#FFE77AFF" }} >
-                    <CardContent className={classes.cardContent}>
-                      <div className={classes.seatNumber}>
+                    <CardContent sx={classes.cardContent}>
+                      <Box sx={classes.seatNumber}>
                         {item.seatNo}
-                      </div>
+                      </Box>
                     </CardContent>
                   </Card>
                 </div>
               ))}
-            </div>
+            </Box>
           }
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
-          <div className={classes.info} >
+          <Box sx={classes.info} >
             <Card variant='outlined' style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px", background: "#C7D3D4FF" }} >
               <CardContent>
-                <div className={classes.main} >
-                  <div className={classes.bookedSeats}></div>
-                  <div>
-                    <p className={classes.f600} >Booked Seats : {data?.numOfSeatsBooked}</p>
-                  </div>
-                </div>
-                <div className={classes.main}>
-                  <div className={classes.availableSeats}></div>
-                  <div>
-                    <p className={classes.f600} >Available Seats: {data?.numOfAvailableSeats}</p>
-                  </div>
-                </div>
+                <Box sx={classes.main} >
+                  <Box sx={classes.bookedSeats}></Box>
+                  <Box sx={classes.f600}>
+                    Booked Seats: {data?.numOfSeatsBooked}
+                  </Box>
+                </Box>
+                <Box sx={classes.main}>
+                  <Box sx={classes.availableSeats}></Box>
+                  <Box sx={classes.f600}>
+                    Available Seats: {data?.numOfAvailableSeats}
+                  </Box>
+                </Box>
 
                 <div style={{ marginTop: "20px" }} >
                   <Card>
                     <CardContent>
-                      <div className={classes.bookingContainer} >
-                        <div className={classes.f600} >
+                      <Box sx={classes.bookingContainer} >
+                        <Box sx={classes.f600}>
                           Current Seats booked:
-                        </div>
+                        </Box>
                         <div>
                           {data?.numOfSeatsBooked === 0 ?
-                            <div className={classes.f600} >
+
+                            <Box sx={classes.f600}>
                               All seats are Avialable
-                            </div> :
-                            <div className={classes.bookingCard}>
-                              <Card className={classes.cardStyles}
+                            </Box>
+                            :
+                            <Box sx={classes.bookingCard}>
+                              <Card sx={classes.cardStyles}
                                 style={{ background: "#990011FF", color: "#FCF6F5FF" }} >
-                                <CardContent className={classes.cardContent}>
-                                  <div className={classes.seatNumber}>
+                                <CardContent sx={classes.cardContent}>
+                                  <Box sx={classes.seatNumber}>
                                     1
-                                  </div>
+                                  </Box>
                                 </CardContent>
                               </Card>
-                            </div>}
+                            </Box>}
                         </div>
-                      </div>
+                      </Box>
                     </CardContent>
                   </Card>
                 </div>
 
-                <div className={classes.enterContainer}>
-                  <div className={classes.example}>
+                <Box sx={classes.enterContainer}>
+                  <Box sx={classes.example}>
                     Enter Number of Seats : example: 4
-                  </div>
+                  </Box>
                   <Grid xs={12} >
                     <form onSubmit={handleSubmit} >
                       <Grid container spacing={2}>
@@ -137,7 +139,7 @@ const Home = () => {
                             placeholder='seats'
                             min="1"
                             max="7"
-                            className={classes.input}
+                            style={{ width: "100%", height: "30px" }}
                             onChange={(e) => setSelectedSeats(e.target.value)}
                             required />
                         </Grid>
@@ -149,9 +151,9 @@ const Home = () => {
                       </Grid>
                     </form>
                   </Grid>
-                </div>
+                </Box>
 
-                <div className={classes.submit}>
+                <Box sx={classes.submit}>
                   <Grid item xs={12} sm={12} md={6}>
                     <Button
                       onClick={handleReset}
@@ -159,15 +161,15 @@ const Home = () => {
                       {resetLoader ? <CircularProgress style={{ color: "#DC004E" }} /> : "Reset All Seats"}
                     </Button>
                   </Grid>
-                </div>
+                </Box>
 
               </CardContent>
             </Card>
-          </div>
+          </Box>
         </Grid>
       </Grid>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
