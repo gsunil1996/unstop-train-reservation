@@ -60,105 +60,30 @@ const seatController = {
   },
 
   // reserve seats
-  // reserveSeats: async (req, res) => {
-  //   const { numOfSeatsToReserve } = req.body;
-
-  //   if (numOfSeatsToReserve < 1 || numOfSeatsToReserve > 7) {
-  //     return res.status(400).json({ error: 'Invalid number of seats to reserve' });
-  //   }
-
-  //   try {
-  //     const seatsToBook = await Seat.find({ isBooked: false }).sort('seatNo').limit(numOfSeatsToReserve);
-
-  //     if (seatsToBook.length < numOfSeatsToReserve) {
-  //       return res.status(400).json({ error: `Only ${seatsToBook.length} seat(s) available` });
-  //     }
-
-  //     for (const seat of seatsToBook) {
-  //       seat.isBooked = true;
-  //       await seat.save();
-  //     }
-
-  //     res.json({ message: 'Seats reserved successfully' });
-  //   } catch (error) {
-  //     res.status(500).json({ error: 'Failed to reserve seats' });
-  //   }
-  // },
-
   reserveSeats: async (req, res) => {
     const { numOfSeatsToReserve } = req.body;
 
-    if (numOfSeatsToReserve < 1 || numOfSeatsToReserve > 80) {
+    if (numOfSeatsToReserve < 1 || numOfSeatsToReserve > 7) {
       return res.status(400).json({ error: 'Invalid number of seats to reserve' });
     }
 
     try {
-      const seatsToBook = await Seat.find({ isBooked: false }).sort('seatNo');
-      const reservedSeats = [];
+      const seatsToBook = await Seat.find({ isBooked: false }).sort('seatNo').limit(numOfSeatsToReserve);
 
-      let consecutiveSeats = [];
-      let lastSeatNo = 0;
+      if (seatsToBook.length < numOfSeatsToReserve) {
+        return res.status(400).json({ error: `Only ${seatsToBook.length} seat(s) available` });
+      }
 
       for (const seat of seatsToBook) {
-        if (lastSeatNo + 1 === seat.seatNo) {
-          consecutiveSeats.push(seat);
-        } else {
-          consecutiveSeats = [seat];
-        }
-
-        if (consecutiveSeats.length === numOfSeatsToReserve) {
-          reserveSeatsInRow(consecutiveSeats);
-          reservedSeats.push(...consecutiveSeats);
-          break;
-        }
-
-        lastSeatNo = seat.seatNo;
+        seat.isBooked = true;
+        await seat.save();
       }
 
-      if (reservedSeats.length === 0) {
-        const nearbySeats = getNearbySeats(seatsToBook, numOfSeatsToReserve);
-        if (nearbySeats.length < numOfSeatsToReserve) {
-          return res.status(400).json({ error: `Only ${nearbySeats.length} seat(s) available` });
-        }
-        reserveSeatsInRow(nearbySeats);
-        reservedSeats.push(...nearbySeats);
-      }
-
-      res.json({ message: 'Seats reserved successfully', reservedSeats });
+      res.json({ message: 'Seats reserved successfully' });
     } catch (error) {
       res.status(500).json({ error: 'Failed to reserve seats' });
     }
   },
-
 };
 
 module.exports = seatController;
-
-
-
-
-
-function reserveSeatsInRow(seats) {
-  for (const seat of seats) {
-    seat.isBooked = true;
-    seat.save();
-  }
-}
-
-function getNearbySeats(seats, numOfSeatsToReserve) {
-  const nearbySeats = [];
-  let count = 0;
-
-  for (const seat of seats) {
-    if (!seat.isBooked) {
-      nearbySeats.push(seat);
-      count++;
-    }
-
-    if (count === numOfSeatsToReserve) {
-      break;
-    }
-  }
-
-  return nearbySeats;
-}
