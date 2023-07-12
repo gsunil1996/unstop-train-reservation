@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Button, Card, CardContent, CircularProgress, Grid, LinearProgress } from "@mui/material";
+import Lottie from "lottie-react";
+import trainLogo from "../assets/animation_ljyqlqf2.json";
 
 const Home = () => {
   const theme = useTheme();
@@ -53,8 +55,14 @@ const Home = () => {
 
   return (
     <div>
-      <div style={{ textAlign: "center" }} >
-        <h1>Seat Reservation</h1>
+
+      <div style={{ display: "flex", gap: "10px", justifyContent: "center", alignItems: "center" }} >
+        <div>
+          <Lottie animationData={trainLogo} loop={true} style={{ width: "100px" }} />
+        </div>
+        <div style={{ textAlign: "center" }} >
+          <h1>Seat Reservation</h1>
+        </div>
       </div>
 
       <Grid container spacing={2}>
