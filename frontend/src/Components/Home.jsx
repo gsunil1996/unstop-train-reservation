@@ -17,6 +17,7 @@ const Home = () => {
   const [dataError, setDataError] = useState("");
   const [resetLoader, setResetLoader] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState(null);
+  const [reserveSeatsLoader, setReserveSeatsLoader] = useState(false);
 
   // const serverURL = "http://localhost:4000"
   const serverURL = "https://unstop-train-reservation.vercel.app"
@@ -47,9 +48,18 @@ const Home = () => {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`submitted: ${selectedSeats}`)
+    setReserveSeatsLoader(true);
+    try {
+      await axios.post(`${serverURL}/reserveSeats`, { numOfSeatsToReserve: selectedSeats });
+      toast.success("seats reserved successfully")
+      fetchData();
+      setReserveSeatsLoader(false);
+    } catch (error) {
+      toast.error(error.response.data.message)
+      setReserveSeatsLoader(false);
+    }
   }
 
   useEffect(() => {
@@ -155,8 +165,9 @@ const Home = () => {
                             required />
                         </Grid>
                         <Grid item xs={12} sm={12} md={6}>
-                          <Button variant="contained" color="primary" type='submit' fullWidth>
-                            Reserve Seats
+                          <Button
+                            variant="contained" color="primary" type='submit' fullWidth disabled={reserveSeatsLoader ? true : false}>
+                            {reserveSeatsLoader ? <CircularProgress style={{ color: "#1976D2" }} /> : "Reserve Seats"}
                           </Button>
                         </Grid>
                       </Grid>
