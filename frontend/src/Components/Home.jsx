@@ -18,11 +18,13 @@ const Home = () => {
   const [resetLoader, setResetLoader] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState(null);
 
+  const serverURL = "http://localhost:4000"
+
   const fetchData = async () => {
     setSeatsLoading(true);
     setData([])
     try {
-      const response = await axios.get('http://localhost:4000/seats');
+      const response = await axios.get(`${serverURL}/seats`);
       setData(response.data);
       setSeatsLoading(false);
     } catch (error) {
@@ -34,7 +36,7 @@ const Home = () => {
   const handleReset = async () => {
     setResetLoader(true);
     try {
-      await axios.post('http://localhost:4000/resetAllSeats');
+      await axios.post(`${serverURL}/resetAllSeats`);
       toast.success("All seats reset successfully")
       fetchData();
       setResetLoader(false);
