@@ -30,7 +30,7 @@ const Home = () => {
       setData(response.data);
       setSeatsLoading(false);
     } catch (error) {
-      setDataError(error.response.data.message)
+      setDataError(error?.response?.data?.error)
       setSeatsLoading(false);
     }
   };
@@ -43,7 +43,7 @@ const Home = () => {
       fetchData();
       setResetLoader(false);
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error?.response?.data?.error)
       setResetLoader(false);
     }
   }
@@ -56,8 +56,9 @@ const Home = () => {
       toast.success("seats reserved successfully")
       fetchData();
       setReserveSeatsLoader(false);
+      console.log("errorrr noooo")
     } catch (error) {
-      toast.error(error.response.data.message)
+      toast.error(error?.response?.data?.error)
       setReserveSeatsLoader(false);
     }
   }

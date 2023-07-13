@@ -29,7 +29,7 @@ const seatController = {
   // get all seats
   getSeats: async (req, res) => {
     try {
-      const seats = await Seat.find();
+      const seats = await Seat.find().sort("seatNo");
       const totalSeats = seats.length;
       const numOfSeatsBooked = seats.filter(seat => seat.isBooked).length;
       const bookedSeatNumbers = seats
