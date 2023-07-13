@@ -16,11 +16,7 @@ connectDB();
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
-app.use(cors({
-  // origin: 'http://localhost:3000',
-  origin: 'https://unstop-train-reservation.vercel.app',
-  credentials: true
-}));
+app.use(cors());
 
 app.options('*', cors());
 
