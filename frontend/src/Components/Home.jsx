@@ -74,7 +74,7 @@ const Home = () => {
           <Lottie animationData={trainLogo} loop={true} style={{ width: "100px" }} />
         </div>
         <div style={{ textAlign: "center" }} >
-          <h1>Seat Reservation</h1>
+          <h1>Reaserve Your Seats</h1>
         </div>
       </div>
 
@@ -117,7 +117,7 @@ const Home = () => {
                   </Box>
                 </Box>
 
-                <div style={{ marginTop: "20px" }} >
+                {/* <div style={{ marginTop: "20px" }} >
                   <Card>
                     <CardContent>
                       <Box sx={classes.bookingContainer} >
@@ -145,7 +145,7 @@ const Home = () => {
                       </Box>
                     </CardContent>
                   </Card>
-                </div>
+                </div> */}
 
                 <Box sx={classes.enterContainer}>
                   <Box sx={classes.example}>
