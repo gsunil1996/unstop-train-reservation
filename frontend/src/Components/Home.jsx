@@ -18,7 +18,8 @@ const Home = () => {
   const [resetLoader, setResetLoader] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState(null);
 
-  const serverURL = "http://localhost:4000"
+  // const serverURL = "http://localhost:4000"
+  const serverURL = "https://unstop-train-reservation.vercel.app"
 
   const fetchData = async () => {
     setSeatsLoading(true);
