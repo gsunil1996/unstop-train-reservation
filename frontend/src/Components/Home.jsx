@@ -12,7 +12,7 @@ const Home = () => {
   const theme = useTheme();
   const classes = styles(theme);
 
-  console.log("theme")
+  console.log("theme", theme)
 
   const [seatsLoading, setSeatsLoading] = useState(true);
   const [data, setData] = useState([]);
